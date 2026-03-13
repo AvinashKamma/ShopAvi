@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./utils/database');
-const errorHandler = require('./middleware/errorMiddleware');
+const {errorHandler} = require('./middleware/errorMiddleware');
+const authRoutes = require('./routes/authRoutes');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,6 +16,9 @@ const app = express();
 app.use(express.json());    // Middleware to parse JSON bodies from incoming requests
 app.use(cookieParser());    // Middleware to parse cookies from incoming requests
 app.use(cors());            // Middleware to enable Cross-Origin Resource Sharing (CORS) for all routes, allowing requests from any origin
+
+
+app.use("/api/auth", authRoutes);
 
 //Test route to check if the server is running
 app.get('/', (req, res) => {
