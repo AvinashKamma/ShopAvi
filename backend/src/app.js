@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
     res.send("Welcome to ShopAvi API");
 });
 
+const PORT = process.env.PORT;
+
 
 // Function to start the server after connecting to the database
 const startServer = async () => {
@@ -25,8 +27,8 @@ const startServer = async () => {
         // Connect to the database before starting the server
         await connectDB();
         // Making the server listen to the port defined in .env file
-        app.listen(process.env.PORT, () => {
-            console.log(`Server is running on port ${process.env.PORT}`);
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {
         console.error('Failed to start server:', error.message);
