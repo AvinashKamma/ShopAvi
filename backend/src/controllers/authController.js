@@ -3,13 +3,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 
+// Register a new user and return JWT token
 const registerUser = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
         if (!name?.trim() || !email?.trim() || !password?.trim()) {
             throw AppError("Entered fields are not valid", 400);
         }
-        const isUserPresent = await User.findOne({ email: email });
+        const isUserPresent = await User.findOne({ email });
         if (isUserPresent) {
             throw AppError("User already present! Try with another email", 400);
         }
@@ -28,19 +29,20 @@ const registerUser = async (req, res, next) => {
     }
 };
 
+// Login existing user and return JWT token
 const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            throw AppError("Enter both email and password",400);
+            throw AppError("Enter both email and password", 400);
         }
         const user = await User.findOne({ email });
         if (!user) {
-            throw AppError("Invalid Credentials",401);
+            throw AppError("Invalid Credentials", 401);
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            throw AppError("Invalid Credentials",401);
+            throw AppError("Invalid Credentials", 401);
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.status(200).json({ message: "Login successful", token });
@@ -50,14 +52,15 @@ const loginUser = async (req, res, next) => {
     }
 };
 
-const getMe = async(req, res, next)=>{
-    try{
+// Get currently logged-in user profile
+const getMe = async (req, res, next) => {
+    try {
         const userId = req.user._id;
         const user = await User.findById(userId).select("-password -__v");
-        res.status(200).json({user});
-    }catch(error){
+        res.status(200).json({ user });
+    } catch (error) {
         next(error);
     }
 }
 
-module.exports = { registerUser, loginUser, getMe};
+module.exports = { registerUser, loginUser, getMe };
