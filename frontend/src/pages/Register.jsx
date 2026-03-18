@@ -1,14 +1,22 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerAPI } from "../api/auth";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  // Handle form submission for registration
+  async function handleSubmit(event) {
     event.preventDefault();
-    console.log(`${name} ${email} ${password}`);
+    try {
+      await registerAPI(name, email, password);   // Call register API to create a new user
+      navigate("/login");
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   return (

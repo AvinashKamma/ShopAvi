@@ -1,20 +1,40 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authMeAPI, loginAPI } from "../api/auth";
+import { authActions } from "../store/authSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  // Handle form submission for login
+  async function handleSubmit(event) {
     event.preventDefault();
-    console.log(`${email} ${password}`);
+    try {
+      const loginData = await loginAPI(email, password);  // Call login API to get token and user data
+      localStorage.setItem("token", loginData.token);     // Store token in localStorage for persistence
+      const meData = await authMeAPI();                   // Call authMe API to get current user data using the token
+      // Update Redux store with user data and token
+      dispatch(
+        authActions.setCredentials({
+          user: meData.user,
+          token: loginData.token,
+        }),
+      );
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Login to ShopAvi
+          Login
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
