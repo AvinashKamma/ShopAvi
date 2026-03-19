@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./utils/database');
 const {errorHandler} = require('./middleware/errorMiddleware');
 const authRoutes = require('./routes/authRoutes');
+const productRoutes = require("./routes/productRoutes");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -18,7 +19,8 @@ app.use(cookieParser());    // Middleware to parse cookies from incoming request
 app.use(cors());            // Middleware to enable Cross-Origin Resource Sharing (CORS) for all routes, allowing requests from any origin
 
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);           // Route for authentication-related endpoints (e.g., login, register)
+app.use("/api/products", productRoutes);    // Route for product-related endpoints (e.g., get all products, get product by ID)
 
 //Test route to check if the server is running
 app.get('/', (req, res) => {
