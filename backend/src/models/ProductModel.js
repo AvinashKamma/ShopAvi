@@ -34,4 +34,6 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("Product", productSchema);
 
-module.exports = Product;
+const PRODUCT_UPDATABLE_FIELDS = ["name", "description", "price", "category", "stock"];
+
+module.exports = {Product, PRODUCT_UPDATABLE_FIELDS};
