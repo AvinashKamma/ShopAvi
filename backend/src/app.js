@@ -1,14 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();                        // Load environment variables from .env file (should be always on top)
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./utils/database');
 const {errorHandler} = require('./middleware/errorMiddleware');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require("./routes/productRoutes");
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Create a application web server
 const app = express();

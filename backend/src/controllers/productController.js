@@ -5,7 +5,7 @@ const AppError = require("../utils/AppError");
 const getAllProducts = async (req, res, next) => {
     try {
         const { search, category, minPrice, maxPrice, sort } = req.query;
-        
+
         // Build the query object based on the provided filters
         let query = {};
         if (search) {
@@ -50,4 +50,31 @@ const getProductById = async (req, res, next) => {
     }
 };
 
-module.exports = { getAllProducts, getProductById };
+// Controller function to create a new product (admin only) with image upload support
+const createProduct = async (req, res, next) => {
+    try {
+        const { name, description, price, category, stock } = req.body;
+
+        // Validate required fields for product creation
+        if(!name || !description || !price || !category || !stock){
+            throw AppError("All fields  name, description, price, category, stock are required", 400);
+        }
+
+        // Process uploaded images and extract their URLs from Cloudinary
+        const imageArray = req.files ? req.files.map((file)=>(file.path)) : [];
+
+        const savedProduct = await Product.create({
+            name,
+            description,
+            price,
+            category,
+            images : imageArray,
+            stock,
+        });
+        res.status(201).json({message : 'Product created', product : savedProduct});
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { getAllProducts, getProductById, createProduct };
