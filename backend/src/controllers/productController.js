@@ -78,6 +78,7 @@ const createProduct = async (req, res, next) => {
     }
 };
 
+// Controller function to update product details by ID (admin only) with support for updating images
 const updateProduct = async (req, res, next) => {
     try {
         const productId = req.params.id;
@@ -106,6 +107,7 @@ const updateProduct = async (req, res, next) => {
     }
 }
 
+// Controller function to delete a product by ID (admin only) and also delete associated images from Cloudinary
 const deleteProduct = async (req, res, next) => {
     try {
         const productId = req.params.id;
