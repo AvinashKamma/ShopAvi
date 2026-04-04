@@ -6,7 +6,8 @@ import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import { authActions } from "./store/authSlice";
 import NavBar from "./components/NavBar";
-import { authMeAPI } from "./api/auth";
+import { authMeAPI } from "./api/authAPI";
+import Products from "./pages/Products";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="products" element={<Products/>} />
         <Route
           path="/dashboard"
           element={
