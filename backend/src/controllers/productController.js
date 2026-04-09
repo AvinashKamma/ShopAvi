@@ -26,9 +26,11 @@ const getAllProducts = async (req, res, next) => {
         }
         let sortQuery = {};
         if (sort) {
-            sortQuery[sort] = 1;        // sort by the specified field in ascending order (e.g., price, ratings)
+            const sortArr = sort.split(" ");
+            // This will take "1" or "-1" and automatically convert it to a number
+            sortQuery[sortArr[0]] = Number(sortArr[1]);     // sort by the specified field and order (e.g., "price 1" for price ascending, "ratings -1" for ratings descending)
         } else {
-            sortQuery.createdAt = -1    // default sorting by creation date in descending order (newest first)
+            sortQuery.createdAt = -1;             // default sorting by creation date in descending order (newest first)
         }
         const products = await Product.find(query).sort(sortQuery);
         res.status(200).json({ products });
