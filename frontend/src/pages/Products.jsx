@@ -13,6 +13,7 @@ function Products() {
     const [categories, setCategories] = useState([]);
     const [priceFilter, setPriceFilter] = useState({ minPrice: "", maxPrice: "" });
 
+    // Fetch products whenever params change (search, category, price range, sort)
     useEffect(() => {
         async function fetchProducts() {
             try {
@@ -23,6 +24,7 @@ function Products() {
         fetchProducts();
     }, [params]);
 
+    // Fetch categories on component mount for category filter dropdown
     useEffect(() => {
         async function fetchCategories() {
             try {
@@ -33,6 +35,7 @@ function Products() {
         fetchCategories();
     }, []);
 
+    // Debounce search input and price filter changes to avoid excessive API calls
     useEffect(() => {
         const timer = setTimeout(() => {
             setParams(prev => ({ ...prev, search }));
@@ -40,6 +43,7 @@ function Products() {
         return () => clearTimeout(timer);
     }, [search]);
 
+    // Debounce price filter changes to avoid excessive API calls
     useEffect(() => {
         const timer = setTimeout(() => {
             setParams(prev => ({ ...prev, ...priceFilter }));
@@ -47,21 +51,21 @@ function Products() {
         return () => clearTimeout(timer);
     }, [priceFilter]);
 
-    function handleSearchBar(e) { setSearch(e.target.value); }
-
+    // Handler functions for search, category dropdown, price inputs, sort dropdown, and reset filters
+    function handleSearchBar(e) {
+        setSearch(e.target.value);
+    }
     function handleDropdown(e) {
         setParams(prev => ({ ...prev, category: e.target.value }));
     }
-
     function handlePriceInput(e) {
+        // Determine if the input is for minPrice or maxPrice based on the name attribute
         const key = e.target.name === "min" ? "minPrice" : "maxPrice";
-        setPriceFilter(prev => ({ ...prev, [key]: e.target.value }));
+        setPriceFilter(prev => ({ ...prev, [key]: e.target.value }));   // Update local price filter state, which will trigger the useEffect to update params after debounce
     }
-
     function sortDropDownHandler(e) {
         setParams(prev => ({ ...prev, sort: e.target.value }));
     }
-
     function handleResetFilters() {
         setParams({}); // Clears backend filters
         setSearch(""); // Clears search bar state

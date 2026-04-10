@@ -1,8 +1,15 @@
 import placeholderImage from "../assets/placeholder.jpg";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({product}) => {
+  const navigate = useNavigate();
+
+  function handleProductClick(){
+    navigate(`/products/${product._id}`);
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden" onClick={handleProductClick}>
       {/* Product Image */}
       <div className="h-48 overflow-hidden">
         <img

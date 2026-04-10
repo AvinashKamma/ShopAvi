@@ -8,11 +8,13 @@ import { authActions } from "./store/authSlice";
 import NavBar from "./components/NavBar";
 import { authMeAPI } from "./api/authAPI";
 import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
+import Home from "./pages/Home";
 
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);    // State to track if we're still loading user data from token
-  
+
   useEffect(() => {
     // On app load, check if there's a token in localStorage and load user data into Redux
     async function loadUser() {
@@ -41,9 +43,11 @@ function App() {
     <>
       <NavBar />
       <Routes>
+        <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="products" element={<Products/>} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
         <Route
           path="/dashboard"
           element={
