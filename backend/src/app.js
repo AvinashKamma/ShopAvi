@@ -8,6 +8,7 @@ const {errorHandler} = require('./middleware/errorMiddleware');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require("./routes/productRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 // Create a application web server
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors());            // Middleware to enable Cross-Origin Resource Sharin
 app.use("/api/auth", authRoutes);           // Route for authentication-related endpoints (e.g., login, register)
 app.use("/api/products", productRoutes);    // Route for product-related endpoints (e.g., get all products, get product by ID)
 app.use("/api/categories", categoryRoutes); // Route for category-related endpoints (e.g., create category, get all categories)
+app.use("/api/cart", cartRoutes);           // Route for cart-related endpoints (e.g., get cart items, add item to cart, update cart quantity, remove item from cart)
 
 //Test route to check if the server is running
 app.get('/', (req, res) => {

@@ -22,7 +22,7 @@ function ProductDetail() {
             }
         }
         fetchProductById();
-    }, [id, dispatch]);
+    }, [id]);
 
     function handleQuantity(event) {
         const operation = event.target.name;

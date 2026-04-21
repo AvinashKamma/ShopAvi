@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Product schema to represent products in the store
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -34,6 +35,7 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("Product", productSchema);
 
+// Define which fields can be updated when editing a product
 const PRODUCT_UPDATABLE_FIELDS = ["name", "description", "price", "category", "stock"];
 
 module.exports = {Product, PRODUCT_UPDATABLE_FIELDS};

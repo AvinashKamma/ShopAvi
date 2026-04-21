@@ -29,7 +29,7 @@ function Home() {
             {/* ─── HERO BANNER SECTION ─── */}
             <div className="bg-indigo-600 text-white py-20 px-6 sm:px-12 lg:px-24 flex flex-col items-center text-center shadow-inner">
                 <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-                    Welcome to <span className="text-indigo-200">ShopFlow</span>
+                    Welcome to <span className="text-indigo-200">ShopAvi</span>
                 </h1>
                 <p className="text-lg md:text-xl text-indigo-100 max-w-2xl mb-10 leading-relaxed">
                     Discover our exclusive collection of top-rated products. Upgrade your lifestyle with premium quality and unbeatable prices.

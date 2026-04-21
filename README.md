@@ -108,7 +108,7 @@ npm run dev
 
 ## Project Status
 
-🚧 Currently in development — Week 2 of 5
+🚧 Currently in development — Week 3 of 5
 
 ---
 
