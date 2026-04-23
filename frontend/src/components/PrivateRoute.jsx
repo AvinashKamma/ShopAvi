@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 // A component to protect routes that require authentication
 function PrivateRoute({children}){
@@ -7,7 +7,7 @@ function PrivateRoute({children}){
     if(!token){
         return <Navigate to={"/login"}/>    // If no token, redirect to login page
     }
-    return children;
+    return <Outlet />;
 }
 
 export default PrivateRoute;

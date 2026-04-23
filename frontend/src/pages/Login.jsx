@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authMeAPI, loginAPI } from "../api/authAPI";
 import { authActions } from "../store/authSlice";
+import { getCartAPI } from "../api/cartAPI";
+import { cartActions } from "../store/cartSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,9 +16,9 @@ function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const loginData = await loginAPI(email, password);  // Call login API to get token and user data
-      localStorage.setItem("token", loginData.token);     // Store token in localStorage for persistence
-      const meData = await authMeAPI();                   // Call authMe API to get current user data using the token
+      const loginData = await loginAPI(email, password); // Call login API to get token and user data
+      localStorage.setItem("token", loginData.token); // Store token in localStorage for persistence
+      const meData = await authMeAPI(); // Call authMe API to get current user data using the token
       // Update Redux store with user data and token
       dispatch(
         authActions.setCredentials({
@@ -24,7 +26,9 @@ function Login() {
           token: loginData.token,
         }),
       );
-      navigate("/dashboard");
+      const cartData = await getCartAPI();
+      dispatch(cartActions.setCart(cartData.cart.items));
+      navigate("/");
     } catch (error) {
       console.error(error.message);
     }

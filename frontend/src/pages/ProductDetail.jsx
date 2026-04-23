@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProductByIdAPI } from "../api/productAPI";
 import { productActions } from "../store/productSlice";
 import DUMMY_IMAGE from "../assets/placeholder.jpg";
+import { addItemToCartAPI } from "../api/cartAPI";
+import { cartActions } from "../store/cartSlice";
+import { formatPrice } from "../utils/helpers";
 
 function ProductDetail() {
     const { id } = useParams();
@@ -30,6 +33,15 @@ function ProductDetail() {
             setQuantity(quantity + 1);
         } else if (operation === "-") {
             setQuantity(quantity - 1);
+        }
+    }
+    
+    async function handleAddToCart(productId, quantity){
+        try{
+            const data = await addItemToCartAPI(productId, quantity);
+            dispatch(cartActions.setCart(data.cart.items));
+        }catch(error){
+            console.error(error.message);
         }
     }
 
@@ -68,7 +80,7 @@ function ProductDetail() {
                         </h2>
 
                         <p className="text-3xl font-bold text-indigo-600 mb-6">
-                            ₹ {product.price}
+                            ₹ {formatPrice(product.price)}
                         </p>
 
                         <p className="text-yellow-400 text-xl tracking-widest mb-8 drop-shadow-sm">
@@ -123,6 +135,7 @@ function ProductDetail() {
                         <button
                             disabled={product.stock === 0}
                             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg disabled:bg-gray-300 disabled:cursor-not-allowed"
+                            onClick={()=>handleAddToCart(product._id, quantity)}
                         >
                             {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
                         </button>

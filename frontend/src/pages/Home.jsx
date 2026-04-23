@@ -21,7 +21,7 @@ function Home() {
         fetchProducts();
     }, []);
 
-    const featuredProducts = [...products].sort((a, b) => b.ratings - a.ratings).slice(0, 6);
+    const featuredProducts = [...products].sort((a, b) => b.ratings - a.ratings).slice(0, 8);
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -54,7 +54,7 @@ function Home() {
                 {featuredProducts.length === 0 ? (
                     <div className="text-center text-gray-500 py-10">Loading featured products...</div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {featuredProducts.map((product) => (
                             <ProductCard product={product} key={product._id} />
                         ))}

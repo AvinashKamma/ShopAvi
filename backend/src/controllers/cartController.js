@@ -43,6 +43,7 @@ const addItemToCart = async (req, res, next) => {
                     quantity
                 }]
             });
+            await cart.populate("items.product");
             return res.status(201).json({ message: "Cart created and item added", cart });
         }
 
@@ -66,6 +67,7 @@ const addItemToCart = async (req, res, next) => {
         }
 
         await cart.save();
+        await cart.populate("items.product");
 
         res.json({ message: "Item added to cart successfully", cart });
 
@@ -109,6 +111,7 @@ const updateCartQuantity = async (req, res, next) => {
 
         cart.items[itemIndex].quantity = quantity;
         await cart.save();
+        await cart.populate("items.product");
         res.status(200).json({ message: "Cart quantity modified", cart });
     } catch (error) {
         next(error);
@@ -138,7 +141,7 @@ const removeItemFromCart = async (req, res, next) => {
         cart.items = cart.items.filter(item => item.product.toString() !== productId);
         
         await cart.save();
-
+        await cart.populate("items.product");
         res.json({ message: "Item removed from the cart", cart });
 
     } catch (error) {
