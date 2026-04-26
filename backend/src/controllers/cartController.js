@@ -149,4 +149,18 @@ const removeItemFromCart = async (req, res, next) => {
     }
 };
 
-module.exports = { getCartItems, addItemToCart, updateCartQuantity, removeItemFromCart };
+const clearCart = async(req, res, next) =>{
+    try{
+        const userId = req.user._id;
+        const deletedCart = await Cart.findOneAndDelete({user : userId});
+        if(deletedCart){
+            return res.json({message : "Cart cleared successfully"});
+        }else{
+            return res.status(404).json({message : "User cart not found !"});
+        }
+    }catch(error){
+        next(error);
+    }
+};
+
+module.exports = { getCartItems, addItemToCart, updateCartQuantity, removeItemFromCart, clearCart };

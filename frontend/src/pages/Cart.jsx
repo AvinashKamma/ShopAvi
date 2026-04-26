@@ -4,20 +4,18 @@ import CartProductCard from "../components/CartProductCard";
 import { formatPrice } from "../utils/helpers";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../store/cartSlice";
-import { removeItemFromCartAPI } from "../api/cartAPI";
+import { clearCartAPI, removeItemFromCartAPI } from "../api/cartAPI";
 
 function Cart() {
     const cartItems = useSelector(state => state.cart.cartItems);
     const dispatch = useDispatch();
     async function handleClearCart() {
         try {
-            for (const item of cartItems) {
-                await removeItemFromCartAPI(item.product._id);
-            }
+            const data = await clearCartAPI();
+            dispatch(cartActions.setCart([]));
         } catch (error) {
             console.error(error.message);
         }
-        dispatch(cartActions.setCart([]));
     }
 
     // If the cart is empty, show this fallback UI

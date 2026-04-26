@@ -36,5 +36,14 @@ const removeItemFromCartAPI = async (productId) => {
     }
 };
 
+const clearCartAPI = async()=>{
+    try{
+        const response = await axiosInstance.delete("/api/cart/clear");
+        return response.data;
+    }catch(error){
+        console.error(error.message);
+    }
+};
 
-export { getCartAPI, addItemToCartAPI, updateCartItemAPI, removeItemFromCartAPI };
+
+export { getCartAPI, addItemToCartAPI, updateCartItemAPI, removeItemFromCartAPI, clearCartAPI };
