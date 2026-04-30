@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartProductCard from "../components/CartProductCard";
 import { formatPrice } from "../utils/helpers";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import { clearCartAPI, removeItemFromCartAPI } from "../api/cartAPI";
 
 function Cart() {
     const cartItems = useSelector(state => state.cart.cartItems);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     async function handleClearCart() {
         try {
@@ -77,7 +78,9 @@ function Cart() {
                             >
                                 Clear Cart
                             </button>
-                            <button className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg font-bold rounded-xl transition-all w-full sm:w-auto">
+                            <button className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg font-bold rounded-xl transition-all w-full sm:w-auto"
+                            onClick={()=>navigate("/checkout")}
+                            >
                                 Proceed to Buy
                             </button>
                         </div>

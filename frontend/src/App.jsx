@@ -13,6 +13,11 @@ import Home from "./pages/Home";
 import { getCartAPI } from "./api/cartAPI";
 import { cartActions } from "./store/cartSlice";
 import Cart from "./pages/Cart";
+import CheckOut from "./pages/CheckOut";
+import { getUserOrdersAPI } from "./api/orderAPI";
+import { orderActions } from "./store/orderSlice";
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,10 +29,12 @@ function App() {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const meData = await authMeAPI();
-          dispatch(authActions.setCredentials({ user: meData.user, token }));
-          const data = await getCartAPI();
-          dispatch(cartActions.setCart(data.cart.items));
+          const myData = await authMeAPI();
+          dispatch(authActions.setCredentials({ user: myData.user, token }));
+          const myCartData = await getCartAPI();
+          dispatch(cartActions.setCart(myCartData.cart.items));
+          const myOrderData = await getUserOrdersAPI();
+          dispatch(orderActions.setOrders(myOrderData.orders));
         }
         setLoading(false);
       } catch (error) {
@@ -56,11 +63,16 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />      
+          <Route path="/cart" element={<Cart />} /> 
+          <Route path="/checkout" element={<CheckOut/>}/>  
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetails/>}/>
         </Route>
       </Routes>
     </>
   );
 }
+
+
 
 export default App;

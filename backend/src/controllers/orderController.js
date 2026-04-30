@@ -18,7 +18,7 @@ const createOrder = async (req, res, next) => {
             quantity: item.quantity
         }));
 
-        const createdOrder = await Order.create({
+        const newOrder = await Order.create({
             user: userId,
             items: userCart,
             totalPrice: totalCartPrice,
@@ -26,9 +26,14 @@ const createOrder = async (req, res, next) => {
             paymentInfo,
         });
 
+        const populatedNewOrder = await newOrder.populate([
+            { path: "items.product" },
+            { path: "user" }
+        ]);
+
         await Cart.findOneAndDelete({ user: userId });
 
-        res.status(201).json({ message: "Order placed successufully !", order: createdOrder });
+        res.status(201).json({ message: "Order placed successufully !", order: populatedNewOrder });
 
     } catch (error) {
         next(error);

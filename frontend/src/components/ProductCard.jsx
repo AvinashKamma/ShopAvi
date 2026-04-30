@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => {
           {product.name}
         </p>
         <p className="text-blue-600 font-bold text-lg mb-1">
-          ₹{formatPrice(product.price)}
+          ₹ {formatPrice(product.price)}
         </p>
         <p className="text-yellow-500 text-sm mb-3">
           {"★".repeat(Math.round(product.ratings))}
