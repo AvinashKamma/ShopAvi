@@ -10,6 +10,7 @@ const productRoutes = require("./routes/productRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // Create a application web server
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/products", productRoutes);    // Route for product-related endpoin
 app.use("/api/categories", categoryRoutes); // Route for category-related endpoints (e.g., create category, get all categories)
 app.use("/api/cart", cartRoutes);           // Route for cart-related endpoints (e.g., get cart items, add item to cart, update cart quantity, remove item from cart)
 app.use("/api/orders", orderRoutes);        // Route for order-related endpoints (e.g., create order, get user orders, get order by ID)
+app.use("/api/admin", adminRoutes);
 
 //Test route to check if the server is running
 app.get('/', (req, res) => {

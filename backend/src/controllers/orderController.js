@@ -67,19 +67,6 @@ const getOrderById = async (req, res, next) => {
     }
 };
 
-const modifyOrderStatus = async (req, res, next) => {
-    try {
-        const orderId = req.params.id;
-        const { status } = req.body;
-        const modifiedOrder = await Order.findByIdAndUpdate(orderId, { status }, { returnDocument: "after", runValidators: true });
-        if (!modifiedOrder) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-        res.json({ message: "Modified order details", order: modifiedOrder });
-    } catch (error) {
-        next(error);
-    }
-}
 
-module.exports = { createOrder, getUserOrders, getOrderById, modifyOrderStatus };
+module.exports = { createOrder, getUserOrders, getOrderById };
 

@@ -18,6 +18,11 @@ import { getUserOrdersAPI } from "./api/orderAPI";
 import { orderActions } from "./store/orderSlice";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
+import AdminRoute from "./components/AdiminRoute";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminOrders from "./pages/AdminOrders";
+import AdminOrderDetails from "./pages/AdminOrderDetails";
+import AdminUsers from "./pages/AdminUsers";
 
 function App() {
   const dispatch = useDispatch();
@@ -67,7 +72,16 @@ function App() {
           <Route path="/checkout" element={<CheckOut/>}/>  
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetails/>}/>
+
+          // All routes inside this AdminRoute will require the user to be an admin
+          <Route element={<AdminRoute/>}>
+            <Route path="/admin" element={<AdminDashboard/>}/>
+            <Route path="/admin/orders" element={<AdminOrders />}/>
+            <Route path="/admin/orders/:id" element={<AdminOrderDetails />}/>
+            <Route path="/admin/users" element={<AdminUsers />}/>
+          </Route>
         </Route>
+
       </Routes>
     </>
   );
